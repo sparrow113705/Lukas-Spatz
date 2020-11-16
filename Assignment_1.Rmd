@@ -1,0 +1,37 @@
+
+#1. assign values to a and b
+a <- 2
+b <- 5
+
+#2. sum, difference, product, ratio
+r1 <- a+b
+r2 <- a-b
+r3 <- a*b
+r4 <- a/b
+
+#3.create vector that contains all previous variables
+v1 <- c(r1,r2,r3,r4)
+
+#4.add a by the power of b
+v1[5] <- a**b
+
+#5 show content of v1
+print(v1)
+
+#6.vector that contains information on the type of mathematical operation used
+v2 <- c("sum","difference","product","ratio","power")
+
+#7.Show content of v2
+print(v2)
+
+#8.create dataframe out of two variables
+df <- data.frame(v1,v2)
+
+#9. Rename to Results and Operation
+colnames(df) = c("Results", "Operation")
+
+#10. Show content of df
+print(df)
+
+#11. Show entry of 3.row and 1. column
+print(df[3,1])
