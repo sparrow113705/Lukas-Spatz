@@ -1,0 +1,62 @@
+---
+title: "Hessen_Holzeinschlag_1994_2014"
+author: "Lukas_Spatz"
+date: "30 11 2020"
+output: html_document
+---
+setwd("C:/Users/lukas/OneDrive/Desktop/Datenanalyse/data")
+
+#1. Read the data provided in the Excel file and “isolate” the tabulated information into a data.frame class
+#read document
+hessen_holzeinschlag <- read.table("hessen_holzeinschlag_1997-2014.csv", header = T, sep = ";", dec=".", skip = 4)
+
+#omit last row
+hessen_holzeinschlag <- na.omit(hessen_holzeinschlag)
+
+#get data structure, FWJ is character
+str(hessen_holzeinschlag)
+
+#convert character to numericals
+hessen_holzeinschlag$FWJ <- as.numeric(as.character(hessen_holzeinschlag$FWJ))
+
+#2 Create a simple visualization which gives a quick, temporally non explicit and descriptive statistical overview of the harvest by tree type and as a total over all trees
+
+#omit Year
+Data1 <- subset( hessen_holzeinschlag, select = -FWJ )
+
+
+#median and quartils for each tree
+boxplot(Data1, main = "Anzahl von Holzeinschlägen 1997-2014")
+
+#frequency for each of the trees and in total
+hist(hessen_holzeinschlag$Eiche, breaks = 4, col = "red", main = "Histogramm Eiche", xlab="", ylab = "Häufigkeit")
+
+hist(Data1$Buche, breaks = 4, col = "red", main = "Histogramm Buche", xlab="", ylab = "Häufigkeit")
+
+hist(Data1$Buntholz, breaks = 4, col = "red", main = "Histogramm Buntholz", xlab="", ylab = "Häufigkeit")
+
+hist(Data1$Fichte, breaks = 4, col = "red",main = "Histogramm Fichte", xlab="", ylab = "Häufigkeit")
+
+hist(Data1$Kiefer, breaks = 4, col = "red",main = "Histogramm Kiefer", xlab="", ylab = "Häufigkeit")
+
+hist(Data1$Insgesamt, breaks = 4, col = "red",main = "Histogramm total", xlab="", ylab = "Häufigkeit")
+
+#Create another visualization which - in the same figure panel - shows how each beech harvest over the time span is related to each of the oak, pine, spruce and colored wood harvests in a 2 by 2 grid
+
+#2 by 2 grid
+par(mfrow=c(2,2)
+
+#correlation by each tree
+install.packages("corrplot")
+library(corrplot)
+
+
+Data2 <- subset( hessen_holzeinschlag, select = -c(FWJ, Insgesamt) )
+res <- cor(Data)
+corrplot(res, type="upper", order="hclust", tl.col="black", tl.srt=45, method = "number")
+
+#Scatterplot for all variables
+plot(Data2)
+
+#3Include your opinion on what could be the key message of these figures in two sentence max.
+Einzelne Werte für jährliche Holzeinschläge unterscheiden sich stark, Fichte und Buche werden sehr häufig geschlagen, Buntholz und Kiefer dagegen wenig. Zudem variiert die Anzahl der Schläge in den Jahren stark z.B. wird Buntholz in einzelnen Jahren gehäuft geschlagen, in anderen Jahren ist dagegen kein Holzschlag festellbar, der Holzschlag dieser Baumart weist also keine Normalverteilung auf.
